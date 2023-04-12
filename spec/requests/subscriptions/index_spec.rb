@@ -21,7 +21,7 @@ RSpec.describe 'get a customers subscriptions' do
     expect(subscriptions_data.keys).to eq([:data])
     expect(subscriptions_data[:data]).to be_a Array
     expect(subscriptions_data[:data].length).to eq(11)
-    subscriptions_data.each do |sub_data|
+    subscriptions_data[:data].each do |sub_data|
       expect(sub_data).to be_a Hash
       expect(sub_data.keys.sort).to eq([:id, :type, :attributes].sort)
       expect(sub_data[:id]).to be_a String
@@ -31,10 +31,10 @@ RSpec.describe 'get a customers subscriptions' do
       expect(sub_data[:attributes].keys.sort).to eq([:title, :price, :active, :frequency, :customer_id, :tea_id, :created_at, :updated_at].sort)
       expect(sub_data[:attributes][:title]).to be_a String
       expect(sub_data[:attributes][:price]).to be_a Float
-      expect(sub_data[:attributes][:active]).to be_a Boolean
+      expect(sub_data[:attributes][:active]).to be_in([true, false])
       expect(sub_data[:attributes][:frequency]).to be_a String
       expect(sub_data[:attributes][:customer_id]).to eq(customer.id)
-      expect(sub_data[:attributes][:tea_id]).to be_a String
+      expect(sub_data[:attributes][:tea_id]).to be_a Integer
       expect(Tea.exists?(sub_data[:attributes][:tea_id]))
       expect(sub_data[:attributes][:created_at].to_datetime).to be_a DateTime
       expect(sub_data[:attributes][:updated_at].to_datetime).to be_a DateTime
