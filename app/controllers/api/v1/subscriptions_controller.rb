@@ -10,14 +10,18 @@ module Api
       private
 
       def find_customer
-        @customer = Customer.find(params[:customer_id])
+        @customer = Customer.find_by(id: params[:customer_id])
         validate_customer
       end
 
       def validate_customer
         return if @customer
 
-        # TODO: render error here
+        if params[:customer_id]
+          render json: ErrorSerializer.invalid_id("customer"), status: :bad_request
+        else
+          render json: ErrorSerializer.missing_parameter('customer_id'), status: :bad_request
+        end
       end
     end
   end
