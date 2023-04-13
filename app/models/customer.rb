@@ -10,4 +10,7 @@ class Customer < ApplicationRecord
                         :state,
                         :postal_code,
                         :country
+
+  validates_uniqueness_of :email, case_sensitive: false
+
 end
